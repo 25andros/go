@@ -1,0 +1,50 @@
+
+mat-drawer {
+  width: 250px;
+  text-align: center;
+}
+
+mat-drawer-content {
+ //height: 700px; 
+ min-height: 75vh;
+ background: #d7e0dc;
+}
+
+mat-form-field {
+scale: 0.75;
+  width: 42%;
+}
+mat-hint {
+  font-size: 12px;
+}
+
+.front-gears {
+  width: 40%;
+  margin: 10px;
+}
+
+.inline-radios {
+  display: block;
+}
+
+
+mat-label {
+  font-weight: 650;
+}
+
+button {
+  margin: 0 10px;
+}
+
+form {
+  margin: 10px 0;
+}
+h3 {
+  margin-top: 0px;
+  padding: 20px;
+  background: #e0d7db;
+  font-style: oblique;
+}
+h4 {
+  margin-left: 20px;
+}

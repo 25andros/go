@@ -1,0 +1,31 @@
+<div id="colour" class="{{colourMode}}">
+
+  <app-header (headColour)="colour($event);"></app-header>
+
+  <mat-sidenav-container style="margin-top: 15px;" class="example-container" >
+    <!-- <mat-sidenav opened mode="side">Start content</mat-sidenav> -->
+
+    <mat-sidenav [opened]="tobeOpened()||userControlled()" mode="side" position="end">
+      <app-side (upSend)="colour($event);" (colorSend)="cssplayValue = $event "></app-side>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <div id="look" style="min-height: calc(100vh - 143px); margin: 0 15px; background-color:{{cssplayValue}}">
+        
+        <button class="sidebar" title="Settings" color="accent" mat-raised-button (click)="bunch(); "><mat-icon  [fontIcon]="sideBar.icon"></mat-icon></button>
+        
+        <button class="sidebar" id="toggleBottom" mat-raised-button (click)="chevronLogic()" title="Go to bottom of page" ><mat-icon  [fontIcon]="topORbottom.sidebarIcon"></mat-icon></button>
+
+
+        <!-- <button class="sidebar" style="top: 2rem" (click)="do()">xxx</button> -->
+
+
+        <router-outlet ></router-outlet>
+      </div>
+
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+  <app-footer></app-footer>
+
+</div>

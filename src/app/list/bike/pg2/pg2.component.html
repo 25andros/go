@@ -1,0 +1,183 @@
+<mat-drawer-container>
+
+  <mat-drawer mode=side opened=true>
+
+    <h3>Pedal to Distance App</h3>
+
+    <form apperance="fill" [formGroup]="gearingSelection">
+      <mat-label>Chainring : </mat-label>
+      <select matNativeControl [formControl]="chainringSelect">
+        <optgroup label="2x">
+          <option value="0">Road</option>
+          <option value="1">Gravel</option>
+        </optgroup>
+
+        <optgroup label="3x">
+          <option value="2">MTB</option>
+        </optgroup>
+
+        <optgroup label="1x">
+          <option value="3">MTB</option>
+          <option value="4">MTB</option>
+        </optgroup>
+
+      </select>
+    </form>
+
+    <form apperance="fill" [formGroup]="gearingSelection">
+      <mat-label>Rear Cassette: </mat-label>
+      <select matNativeControl [formControl]="cassetteSelection">
+        <optgroup label="11 Speed">
+          <option value="0">{{rearGears[0].name.descript}}</option>
+          <option value="1">{{rearGears[1].name.descript}}</option>
+          <option value="2">{{rearGears[2].name.descript}}</option>
+        </optgroup>
+        <optgroup label="10 Speed">
+          <option value="3">{{rearGears[3].name.descript}}</option>
+          <option value="4">{{rearGears[4].name.descript}}</option>
+          <option value="5">{{rearGears[5].name.descript}}</option>
+        </optgroup>
+      </select>
+    </form>
+
+    <form [formGroup]="gearingSelection">
+      <mat-label>Wheel Size </mat-label>
+      <select matNativeControl [formControl]="wheelSelection" [title]="info.wheelTypeSpec">
+        <optgroup label="diameter">
+          <option *ngFor="let x of wheel; let i=index" [value]="i">{{wheel[i].name}}</option>
+        </optgroup>
+      </select>
+    </form>
+
+    <mat-label>Tire Size: (mm) </mat-label>
+    <mat-form-field appearance="fill">
+      <input matInput [formControl]="tyreSelection" type="number">
+    </mat-form-field>
+
+    <mat-label>Wheel Circum. </mat-label>
+    <mat-form-field>
+      <input matInput type="text" [ngModel]="truncDigits(tyreCircumference(),3)+' (M)'" [title]="info.wheelCalcSpec">
+    </mat-form-field>
+
+
+    <button disabled="true" mat-raised-button="" color="accent" (click)="pullandchug();grabandchad();">Plug & Chug</button>
+    <button disabled="true" mat-raised-button="" color="warn" (click)="datasource3=[];compris=[]">Clear</button>
+
+    <p></p>
+    <mat-divider></mat-divider>
+    <p></p>
+
+    <form apperance="fill" [formGroup]="gearingSelection">
+      <mat-label [title]="info.gears">Gear Selection </mat-label>
+      <select matNativeControl [formControl]="FrontGEAR">
+        <optgroup label="Front Gear select">
+          <option *ngFor="let x of frontGears[frontID()].gears; let i=index" [value]="i">{{i+1 +",
+            "+frontGears[frontID()].gears[i]}}
+          </option>
+        </optgroup>
+      </select>
+
+      <select matNativeControl [formControl]="RearGEAR">
+        <optgroup label="Rear Gear select">
+          <option *ngFor="let x of rearGears[rearID()].gears; let i=index" [value]="i">{{i+1 +",
+            "+rearGears[rearID()].gears[i]}}
+          </option>
+        </optgroup>
+      </select>
+    </form>
+
+    <mat-label>Gear specific </mat-label>
+    <mat-form-field>
+      <input matInput disabled="true" type="text" [ngModel]="truncDigits(tyreCircumference()*spinRatioReturn(),3)+' (M)'" [title]="info.gearSpec">
+      <mat-hint>distance</mat-hint>
+    </mat-form-field>
+ 
+    <p></p>
+
+    <mat-label>Cadence</mat-label>
+    <mat-form-field>
+      <input matInput [formControl]="cadenceSelect" type="number">
+      <mat-hint>Revs/min</mat-hint>
+    </mat-form-field>
+
+    <p></p>
+
+    <mat-label>Speed</mat-label>
+    <mat-form-field>
+      <input matInput disabled="true" type="text" [ngModel]="truncDigits(((cadenceSelect.value||0)*tyreCircumference()*spinRatioReturn()*60/1000),2)">
+      <mat-hint>km/h</mat-hint>
+    </mat-form-field>
+
+
+
+
+  </mat-drawer>
+
+
+  <mat-drawer-content>
+
+    <div>
+
+      <h4>Current Equipment Selected</h4>
+
+      <table mat-table [dataSource]="compris" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="Chainring">
+          <th mat-header-cell *matHeaderCellDef> Chainring </th>
+          <td mat-cell *matCellDef="let element">{{element.front.name +" "+ element.front.gears}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Cassette">
+          <th mat-header-cell *matHeaderCellDef> Cassette </th>
+          <td mat-cell *matCellDef="let element">{{element.rear.name +" "+ element.rear.gears}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Wheel">
+          <th mat-header-cell *matHeaderCellDef> Wheels </th>
+          <td mat-cell *matCellDef="let element">{{wheel[wheelpicked()].name +", "+ tyreSelection.value+" mm"}} </td>
+        </ng-container>
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="comprisCols"></tr>
+        <tr mat-row *matRowDef="let row; columns: comprisCols;"></tr>
+      </table>
+
+    </div>
+
+    <p></p>
+
+    <h4>Meters of Development Table</h4>
+    <table mat-table [dataSource]="datasource3" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="gear">
+        <th mat-header-cell *matHeaderCellDef> Front </th>
+        <td mat-cell *matCellDef="let element"> {{element.Front.index+", "+ element.Front.tooth}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> Rear </th>
+        <td mat-cell *matCellDef="let element"> {{element.Rear.index+", "+element.Rear.tooth}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ratio">
+        <th mat-header-cell *matHeaderCellDef> Travel </th>
+        <td mat-cell *matCellDef="let element"> {{element.ratio+" meters"}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="speed">
+        <th mat-header-cell *matHeaderCellDef> Speed @ {{cadenceSelect.value+" rpm"}}</th>
+        <td mat-cell *matCellDef="let element"> {{truncDigits((element.ratio*(cadenceSelect.value||0)*60/1000),2)+" km/h"}} </td>
+        <!-- <td mat-cell *matCellDef="let element"> {{cadenceSelect.value||0}} </td> -->
+      </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns0"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns0;"></tr>
+    </table>
+
+  </mat-drawer-content>
+
+</mat-drawer-container>

@@ -1,0 +1,44 @@
+<section id="intro">
+
+  <h1>Zack Gibbs</h1>
+  <h2 id="desc">Frontend Developer</h2>
+</section>
+
+  <button mat-raised-button color="accent" (click)="goToWork();" title="Jump to Projects section" id="one">Projects</button>
+  <button mat-raised-button="" (click)="goToRez()" id="two">Résumé</button>
+
+<section>
+
+  <h2 id="work">Projects</h2>
+  <p>Click on the cards below to check out some of my various projects!</p>
+
+</section>
+
+<mat-card (click)="onCardClick(3)">
+  <mat-card-header>
+    <div mat-card-avatar id="bike"></div>
+    <mat-card-title>Bicycle Gears and their distances</mat-card-title>
+    <mat-card-subtitle>How far does your bike go...</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="../../../assets/project-pre/bike_preview.png" alt="bicycle gearing">
+</mat-card>
+
+<mat-card (click)="onCardClick(1)">
+  <mat-card-header>
+    <div mat-card-avatar id="dogz"></div>
+    <mat-card-title>The dogs...</mat-card-title>
+    <mat-card-subtitle>playing with json</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="../../../assets/project-pre/dogs-a-sleepin-x-sml.jpg" alt="doggies preview">
+</mat-card>
+
+
+<!-- <mat-card #quotes (click)="onCardClick(quotes)"> -->
+<mat-card #qu id="quotes" (click)="onCardClick(2)">
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>quotes</mat-card-title>
+    <mat-card-subtitle>static site</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="../../../assets/project-pre/quotes-preview.png" alt="quotes preview">
+</mat-card>

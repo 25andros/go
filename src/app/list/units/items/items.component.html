@@ -1,0 +1,69 @@
+<mat-card>
+
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <!-- <mat-card-title>{{nomen[i].name}}</mat-card-title> -->
+    <!-- <mat-card-subtitle>Name</mat-card-subtitle> -->
+    <span class="type">Name:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="text">{{nomen[i].name}}</span>
+  </mat-card-header>
+  <img [src]="nomen[i].photo" [title]="nomen[i].nickname" style="max-width: 600px">
+
+  <mat-card-content>
+    <p></p>
+    <span class="type">Breed:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="text">{{nomen[i].breed}}</span>
+    <p></p>
+    <span class="type">Age:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="text">{{nomen[i].age}}</span>
+    <p></p>
+    <span class="type">Decription:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="text">{{nomen[i].description}}</span>
+    <p></p>
+    <span class="type">Nature:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span class="text">{{nomen[i].nature}}</span>
+    <p></p>
+
+    <!-- <span class="text">{{i}}</span> -->
+
+  </mat-card-content>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-actions>
+    <button mat-raised-button color="primary" (click)=" display2(i)"><mat-icon>thumb_up</mat-icon></button>
+    <button mat-flat-button color="accent" (click)="shareThem()"><mat-icon>share</mat-icon></button>
+
+    <!-- <div ngModel></div> -->
+    <mat-progress-bar [value]=nomen[i].likes*10></mat-progress-bar>
+
+  </mat-card-actions>
+  <div *ngIf="toShare">
+    <mat-divider></mat-divider>
+    <button mat-flat-button [cdkCopyToClipboard]="link" (click)="doTime()"><mat-icon>content_copy</mat-icon></button>
+
+    <span *ngIf="opened">Link copied!</span>
+    <!-- <button mat-flat-button ><mat-icon>print</mat-icon></button> -->
+    <!-- <button mat-flat-button ><mat-icon>email</mat-icon></button> -->
+  </div>
+
+
+</mat-card>
+
+<!-- <div>
+
+    <p></p>
+    <mat-card-subtitle>Breed:</mat-card-subtitle>
+    <mat-card-title>{{nomen[i].breed}}</mat-card-title>
+    <p></p>
+    <mat-card-subtitle>Age:</mat-card-subtitle>
+    <mat-card-title>{{nomen[i].age}}</mat-card-title>
+    <p></p>
+    <mat-card-subtitle>Decription:</mat-card-subtitle>
+    <mat-card-title>{{nomen[i].description}}</mat-card-title>
+    <p></p>
+    <mat-card-subtitle>Nature:</mat-card-subtitle>
+    <mat-card-title>{{nomen[i].nature}}</mat-card-title>
+    <p></p>
+
+</div> -->

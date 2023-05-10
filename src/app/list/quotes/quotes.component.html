@@ -1,0 +1,26 @@
+<h2>Quotes</h2>
+
+<p>Here be quotes in no particular order...</p>
+
+<form [formGroup]="timing">
+
+  <mat-form-field>
+    <mat-label>Change Frequeny</mat-label>
+    <input matInput value="1" type="number" [formControl]="freqSelection">
+  </mat-form-field>
+
+</form>
+
+<button color="accent" mat-raised-button="" (click)="goPrev()">Prior</button>
+<button color="accent" mat-raised-button="" (click)="goNext()">Next</button>
+
+<blockquote *ngFor="let x of curView;let i=index">{{curView[i]}}</blockquote>
+
+<!-- <div>
+
+<blockquote>{{items[index]}}</blockquote>
+<blockquote>{{items[index+1]}}</blockquote>
+<blockquote>{{items[index+2]}}</blockquote>
+<p>{{index}}</p>
+
+</div> -->

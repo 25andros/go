@@ -1,0 +1,67 @@
+<mat-accordion multi>
+
+  <mat-expansion-panel [hideToggle]="areTogglesHidden" expanded=true>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>link</mat-icon> <span>Links</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        Go where?
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-list role="list">
+      <!-- <mat-list-item role="listitem" routerLink="/projects">Projects</mat-list-item> -->
+      <mat-list-item role="listitem" (click)="goToWork()">Projects</mat-list-item>
+      <mat-list-item role="listitem" routerLink="/bicycle">Bicycle Gearing</mat-list-item>
+      <mat-list-item role="listitem" routerLink="/quotes">Quotes</mat-list-item>
+      <mat-list-item role="listitem" routerLink="/doggies">The Dogs</mat-list-item>
+      <mat-list-item role="listitem" routerLink="/about">About</mat-list-item>
+      <mat-list-item role="listitem" routerLink="/features">Features</mat-list-item>
+    </mat-list>
+
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [hideToggle]="areTogglesHidden" [expanded]=isExpanded>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>settings</mat-icon> <span>Settings</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        System Setting
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <!-- <div>each system setting feature to be in a nav</div> -->
+
+    <nav>
+      <mat-slide-toggle (change)="vmSwitch(); action()" color="primary">
+        <mat-icon>{{visual_mode}}</mat-icon></mat-slide-toggle>
+    </nav>
+
+    <nav>
+      <mat-form-field floatlabel="">
+        <mat-label>colour</mat-label>
+        <input type="" matInput="true" [(ngModel)]=funnybackgroundColor>
+        <mat-hint align="end">change background</mat-hint>
+      </mat-form-field>
+      <button mat-mini-fab style="margin: 0px 12px;" (click)="cssPlay()"><mat-icon>border_color</mat-icon></button>
+
+      <p></p>
+      <span>Random Color?</span>
+      <button mat-mini-fab style="margin: 0px 12px;" (click)="cssPlayRand()">Go!</button>
+
+      <p></p>
+      <button mat-raised-button (click)="cssReset()">Reset custom color</button>
+    </nav>
+
+    <!-- <nav>
+      <p></p>
+      <mat-slide-toggle (change)=""><mat-icon fontIcon="view_kanban"></mat-icon></mat-slide-toggle>
+       Sidebar dynamic control
+    </nav> -->
+
+  </mat-expansion-panel>
+
+</mat-accordion>

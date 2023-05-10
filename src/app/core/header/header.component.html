@@ -1,0 +1,67 @@
+<mat-toolbar color="primary">
+
+  <!-- <button mat-icon-button (click)="action()" aria-label="Advanced options">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+
+  <button mat-button color="accent" routerLink="/projects" (click)="toTop()">Gibbs Page</button>
+
+  <span style="flex: 1 1 auto"></span>
+
+  <mat-slide-toggle (change)="vmSwitch(); actionDo();"><mat-icon>{{visual_mode}}</mat-icon></mat-slide-toggle>
+
+  <!-- <input id="page_selector" placeholder="navigate on this site" type="text" style="text-align: right"
+    [(ngModel)]="data.choice" /> -->
+
+  <input matInput id="page_selector" placeholder="navigate on this site" type="text" style="text-align: right"
+    [(ngModel)]="data.choice" />
+
+  <!-- <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of options" [value]="option">
+      {{option}}
+    </mat-option>
+  </mat-autocomplete> -->
+
+  <button mat-icon-button color="accent" (click)=goNavi();><mat-icon>search</mat-icon></button>
+
+  <!-- <button mat-icon-button [matMenuTriggerFor]="main" aria-label="Advanced options">
+    <mat-icon>menu</mat-icon>
+  </button> -->
+
+</mat-toolbar>
+
+
+<mat-menu #main="matMenu">
+
+  <button mat-menu-item [matMenuTriggerFor]="Links">
+    <mat-icon>link</mat-icon>
+    <span>Link</span>
+  </button>
+
+  <button mat-menu-item [matMenuTriggerFor]="Settings">
+    <mat-icon>settings</mat-icon>
+    <span>Settings</span>
+  </button>
+
+</mat-menu>
+
+
+
+<mat-menu #Links="matMenu">
+
+  <a routerLink="/doggies">The Dogs</a>
+
+  <a routerLink="/quotes">Quotes</a>
+  <a routerLink="/projects">Projects</a>
+
+
+  <button routerLink="/doggies">The Dogs</button>
+  <button routerLink="/quotes">Quotes</button>
+  <button routerLink="/projects">projects </button>
+</mat-menu>
+
+
+
+<mat-menu #Settings="matMenu">
+
+</mat-menu>

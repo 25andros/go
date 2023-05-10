@@ -1,0 +1,80 @@
+
+#intro {
+  height: 75vh;
+  background-image: url(../../../assets/about/moi.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+section {
+
+text-align: center;
+}
+
+#intro h1, #desc {
+  background: hsl(0,0%,100%,.9);
+  border-radius: 7px;
+  font-size: xx-large;
+  color: orange;
+  margin-top: 40px;
+  padding: 5px 15px;
+  //text-align: right;
+  position: absolute;
+  right: 12.5%;
+}
+
+#desc {
+  font-size:large;
+  margin-top: 90px;
+}
+
+@mixin lander($down){
+   position: absolute;
+   top: $down;
+    right: 12.5%;
+}
+
+#one {
+  @include lander(125px);
+}
+
+#two {
+  @include lander(165px);
+}
+
+
+section h2 {
+  color: orange;
+}
+
+section button {
+  top: 37.5vh;
+  right: 30%;
+}
+
+.header-image {
+  
+  background-image: url("../../../assets/project-pre/fancy-q.png");
+  background-size: cover;
+}
+
+#dogz{
+
+  background-image: url("../../../assets/project-pre/dog-pre-sml.jpg");
+  background-size: cover;
+}
+
+#bike {
+ 
+  background-image: url("../../../assets/project-pre/cycle_preview.jpg");
+  background-size: cover;
+ 
+}
+
+mat-card {
+  //display: inline-block;
+  max-width:800px;
+  margin: 15px auto;
+  background-color: lightgray;
+}

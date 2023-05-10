@@ -1,0 +1,22 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex">
+
+  <mat-tab label="Gearing">
+    <app-pg2></app-pg2>
+  </mat-tab>
+
+  <mat-tab label="Info...">
+    <h2>Details about app</h2>
+    <p>This app is designed to show how far each gear whilst on a bicycle will take you.</p>
+    <h3>How to use</h3>
+    <p>On the left side of the screen, is where the user will select the different parts on their bicycle. For instance, if the user has a road bicycle, they would select the chainring, the cassette on their bike, their tire size and wheel type. In a road bikes case, they would selected a road chainring, the appropriate cassette, a 700c wheel and most likely a 25mm wide tire.</p>
+
+    <h3>Making sense of the numbers</h3>
+    <p>The meters of development table show the amount of speed that will occur in one revolution of the cranks, aka the pedals. </p>
+
+
+    <h5>Definitions:</h5>
+    <p>chainring: The front sprocket/gears located at the bottom of the frame</p>
+    <p>cassette: The rear sprocket/gears located on the rear wheel</p>
+  </mat-tab>
+
+</mat-tab-group>
