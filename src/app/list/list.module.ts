@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UnitsComponent } from './units/units.component';
 import { QuotesComponent } from './quotes/quotes.component';
 import { ErrorComponent } from './error/error.component';
-import { HomeComponent } from './home/home.component';
 
 import { MaterialModule } from '../material/material.module';
 import { ItemsComponent } from './units/items/items.component';
@@ -24,7 +23,6 @@ import { DogCardComponent } from './dogs/dog-card/dog-card.component';
     UnitsComponent,
     QuotesComponent,
     ErrorComponent,
-    HomeComponent,
     ItemsComponent,
     AboutComponent,
     ProjectsComponent,
@@ -45,7 +43,6 @@ import { DogCardComponent } from './dogs/dog-card/dog-card.component';
     UnitsComponent,
     QuotesComponent,
     ErrorComponent,
-    HomeComponent,
   ]
 })
 export class ListModule {

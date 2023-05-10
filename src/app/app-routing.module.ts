@@ -3,14 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { QuotesComponent } from './list/quotes/quotes.component';
 import { ErrorComponent } from './list/error/error.component';
-import { HomeComponent } from './list/home/home.component';
 import { UnitsComponent } from './list/units/units.component';
 import { AboutComponent } from './list/about/about.component';
 import { ProjectsComponent } from './list/projects/projects.component';
 import { FeaturesComponent } from './list/features/features.component';
 import { BikeComponent } from './list/bike/bike.component';
-import { DogsComponent } from './list/dogs/dogs.component';
-
 
 
 const routes: Routes = [
@@ -19,7 +16,6 @@ const routes: Routes = [
   { path: '', redirectTo: '/projects', pathMatch: 'full' }, 
 
   { path: 'about', component: AboutComponent },
-  { path: 'index', component: HomeComponent },
   { path: '404', component: ErrorComponent },
 
   { path: 'home', component: ProjectsComponent },
