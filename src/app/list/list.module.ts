@@ -16,6 +16,7 @@ import { Pg2Component } from './bike/pg2/pg2.component';
 import { Pg1Component } from './bike/pg1/pg1.component';
 import { DogsComponent } from './dogs/dogs.component';
 import { DogCardComponent } from './dogs/dog-card/dog-card.component';
+import { WtaComponent } from './wta/wta.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { DogCardComponent } from './dogs/dog-card/dog-card.component';
     Pg1Component,
     DogsComponent,
     DogCardComponent,
+    WtaComponent,
   ],
   imports: [
     CommonModule,
