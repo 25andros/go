@@ -24,26 +24,13 @@
 
       <mat-form-field >
         <mat-label>Target Tension (Left)</mat-label>
-        <input matInput type=number formControlName="readLeft">
+        <input matInput type=number formControlName="leftWheel">
       </mat-form-field>
       <br>
 
       <mat-form-field >
         <mat-label>Target Tension (Right)</mat-label>
-        <input matInput type=number formControlName="readRight">
-      </mat-form-field>
-      <br>
-
-      <mat-form-field >
-        <mat-label>Left tension</mat-label>
-        <input matInput type=number formControlName="polyL">
-      </mat-form-field>
-      <br>
-
-
-      <mat-form-field >
-        <mat-label>Right tension</mat-label>
-        <input matInput type=number formControlName="polyR">
+        <input matInput type=number formControlName="rightWheel">
       </mat-form-field>
       <br>
 
@@ -52,6 +39,7 @@
 
       <button mat-flat-button color=accent (click)="convRead2Tsn()">look</button>
 
+      <!-- <button mat-flat-button color=warn (click)="rebuildCanvas()">look</button> -->
     </form>
   </mat-tab>
 
@@ -66,7 +54,7 @@
   <h3 style="color:orange">Left</h3>
       <div *ngFor="let x of spokeQt.controls;let i=index;" [formGroupName]="i" style="margin: 0px  5px">
         <mat-form-field color=accent appearance=fill [style.width.px]=150>
-          <mat-label>spoke #{{i+1}} </mat-label>
+            <mat-label>spoke #{{i+1}} {{Tsn_to_tm1(lWheel())}} </mat-label>
           <input matInput type="number" placeholder={{i+1}}  formControlName="i" (change)="delWheel('pink');genUserWheel(rtWheelL(),'pink')">
           <!-- <button mat-flat-button  matSuffix color=accent type="button" (click)="rmSpoke(i)"><mat-icon>close</mat-icon></button> -->
         </mat-form-field>
@@ -90,24 +78,38 @@
 
   </mat-tab>
 
-  <!-- <mat-tab label="Measure">
+  <mat-tab label="Options">
     <form [formGroup]="sliderSelection">
+
       <mat-form-field >
-        <mat-label>immediate tension</mat-label>
-        <input matInput type=number formControlName="immed" >
+        <mat-label>Inner Circle</mat-label>
+        <input matInput type=number formControlName="innerCircle" >
       </mat-form-field>
       <br>
 
       <mat-form-field >
-        <mat-label>reading</mat-label>
-        <input matInput type=number formControlName="reading" >
+        <mat-label>Outer Circle</mat-label>
+        <input matInput type=number formControlName="outerCircle" >
       </mat-form-field>
       <br>
+
+      <mat-form-field >
+        <mat-label>Scale</mat-label>
+        <input matInput type=number formControlName="scaleConv" >
+      </mat-form-field>
+      <br>
+
+      <mat-form-field >
+        <mat-label>Canvas Size</mat-label>
+        <input matInput type=number formControlName="canvas" >
+      </mat-form-field>
+      <br>
+
 
 
 
    </form>
 
-  </mat-tab> -->
+  </mat-tab>
 </mat-tab-group>
 

@@ -15,80 +15,39 @@ export class WtaComponent {
 
   constructor(private _fb: FormBuilder,   )  {  }
 
-  testTab=0;
-
   //Form Builder
   sliderSelection = this._fb.group({
     radius:180,
-    rightWheel: 155||0,
-    leftWheel: 105||0,
+    leftWheel: 120,
+    rightWheel: 125||0,
     spokeQt: 5,
+    scaleConv:1.25,
 
     spokeDia: 2,
     readRight:25,
     readLeft:23,
-
-    polyL: 155,
-    polyR: 175,
+    innerCircle:25,
+    outerCircle:180,
+    canvas:375,
   } );
 
   radius(){ return this.sliderSelection.value.radius}
+  lWheel(){ return this.sliderSelection.value.leftWheel||100}
   rWheel(){ return this.sliderSelection.value.rightWheel}
-  lWheel(){ return this.sliderSelection.value.leftWheel}
-  spokeCount(){ return this.sliderSelection.value.spokeQt||3}
-  polyL(){ return this.sliderSelection.value.polyL||100}
-  polyR(){ return this.sliderSelection.value.polyR||100}
+  spokeCount(){ return this.sliderSelection.value.spokeQt||122}
 
   spokeDia(){ return this.sliderSelection.value.spokeDia||0}
-  readRight(){return this.sliderSelection.value.readRight||0}
   readLeft(){return this.sliderSelection.value.readLeft||0}
+  readRight(){return this.sliderSelection.value.readRight||0}
 
+  innerCircle(){return this.sliderSelection.value.innerCircle}
+  outerCircle(){return this.sliderSelection.value.outerCircle||180}
+  canvas() {return this.sliderSelection.value.canvas||375}
 
-
-  // stream of D3 drawings
-
-baseline$=this.sliderSelection.statusChanges
-  .pipe(takeUntil(this.unsubscribe$))
-  .subscribe((x)=>{
-    d3.selectAll('circle#rxjsCirc').remove();
-
-    //to allow for redraw of the max circle... will need to edit the .attr(r,radius())
-    d3.selectAll('circle#maxCirc').remove();
-    this.createCirBaselines();
-
-    d3.selectAll('spokeLines').remove();
-    this.initRay();
-    this.linesMake();
-
-    d3.selectAll('polygon').remove();
-    this.makepolyGon();
-  });
-
-
-  //lifecycle hooks
-
-  ngOnInit(): void {
-    this.buildForm()
-    this.makeCanvas();
-    this.createCirBaselines(); //backdrop circle
-    this.linesMake();
-    this.makepolyGon();
-   //this.genUserWheel(this.rtWheelL(),'pink')
-   //this.genUserWheel(this.rtWheelR(),'purple')
-  }
-
-  ngOnDestroy(){
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-
-  slideMin=25;
-  slideMax=180;
-  step=1;
-
-  widthPrint=375;
-  heightPrint=375;
+  
+  testTab=0;
+  widthPrint=this.canvas();
+  heightPrint=this.canvas();
   centreX=this.widthPrint/2;
   centreY=this.heightPrint/2;
   circleRadius=50;
@@ -99,9 +58,46 @@ baseline$=this.sliderSelection.statusChanges
   bet=this.centreY;
   offset= 360/this.spokeCount();
 
-
   svg:any;
   svgCirc:any;
+
+  // stream of D3 drawings
+
+  baseline$=this.sliderSelection.statusChanges
+  .pipe(takeUntil(this.unsubscribe$))
+  .subscribe((x)=>{
+      //d3.selectAll('circle#rxjsCirc').remove();
+
+      d3.selectAll('circle').remove();
+      this.createCirBaselines();
+
+      d3.selectAll('spokeLines').remove();
+      this.linesMake();
+
+      d3.selectAll('polygon').remove();
+      //this.makepolyGon();
+  });
+
+  //lifecycle hooks
+  ngOnInit(): void {
+    this.buildForm()
+    this.makeCanvas()
+    this.createCirBaselines(); //backdrop circles
+    this.linesMake();
+
+   this.genUserWheel(this.rtWheelL(),'pink')
+   this.genUserWheel(this.rtWheelR(),'purple')
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  rebuildCanvas(){
+      d3.selectAll('drawingPad').remove()
+      this.makeCanvas()
+  }
 
   makeCanvas(){
     this.svg= d3
@@ -109,6 +105,7 @@ baseline$=this.sliderSelection.statusChanges
     .append('svg')
     .attr('width',this.widthPrint)
     .attr('height',this.heightPrint)
+    .attr('id','drawingPad')
     ;
   }
 
@@ -118,7 +115,7 @@ baseline$=this.sliderSelection.statusChanges
     .append('circle')
     .attr('cx', this.centreX)
     .attr('cy', this.centreY)
-    .attr('r',this.slideMax)
+    .attr('r',this.outerCircle())
     .attr('fill','none')
     .attr('id','maxCirc')
     .style("stroke", "black")
@@ -129,7 +126,7 @@ baseline$=this.sliderSelection.statusChanges
     .append('circle')
     .attr('cx', this.centreX)
     .attr('cy', this.centreY)
-    .attr('r',this.slideMin)
+    .attr('r',this.innerCircle())
     .attr('fill','none')
     .attr('id','minCirc')
     .style("stroke", "black")
@@ -137,6 +134,8 @@ baseline$=this.sliderSelection.statusChanges
     ;
 
   }
+
+  //---black --spokes- ---//
 
   iterDataR=Array({});
 
@@ -155,11 +154,10 @@ baseline$=this.sliderSelection.statusChanges
 x={
   x1:this.alfa,
   y1:this.bet,
-  x2:this.getx(360/this.spokeCount()*i,this.slideMax)+this.alfa,
-  y2:this.gety(360/this.spokeCount()*i,this.slideMax)+this.bet}
+  x2:this.getx(360/this.spokeCount()*i,this.outerCircle())+this.alfa,
+  y2:this.gety(360/this.spokeCount()*i,this.outerCircle())+this.bet}
  );
 }
-
 
 //black spoke backdrop
   linesMake(){
@@ -179,52 +177,6 @@ x={
     ;
 
   }
-
-  polyLeft:{ x:number; y:number}[]= [
-  ];
-
-  polyRight:{ x:number; y:number}[]= [
-  ];
-
-  obj2polyPass(alpha:{ x:number; y:number}[]){
-
-    const xCor=alpha.map(x=>x.x);
-    const  yCor=alpha.map(x=>x.y);
-    return Array(alpha.length).fill({}).map((x,i)=>x=xCor[i]+","+yCor[i]).join(" ");
-  }
-
-  makepolyGon(){
-    this.polyLeft=Array(this.spokeCount()).fill({}).map((x,i)=>
-        x={
-          x:this.getx(360/this.spokeCount()*i,this.polyL())+this.centreX,
-          y:this.gety(360/this.spokeCount()*i,this.polyL())+this.centreY
-        }
-);
-    this.polyRight=Array(this.spokeCount()).fill({}).map((x,i)=>
-        x={
-          x:this.getx(360/this.spokeCount()*i,this.polyR())+this.centreX,
-          y:this.gety(360/this.spokeCount()*i,this.polyR())+this.centreY
-        }
-);
-
-    this.svg
-    .append("polygon")
-    .attr("points", this.obj2polyPass(this.polyLeft))
-    .style("fill", "none")
-    .style("stroke", "orange")
-    .style("stroke-width", 4)
-    ;
-
-    this.svg
-    .append("polygon")
-    .attr("points", this.obj2polyPass(this.polyRight))
-    .style("fill", "none")
-    .style("stroke", "blue")
-    .style("stroke-width", 4)
-    ;
-  }
-
-
  // Measurement portion of application
 
       dynamic = this._fb.group({
@@ -255,8 +207,7 @@ x={
       this.rSpokeQt.clear()
     }
 
-    // unsued
-
+    // un-used
     addSpoke(){ this.spokeQt.push(
       this._fb.group({i:this.lWheel})
     )}
@@ -266,6 +217,13 @@ x={
 }
 
 // ------
+  obj2polyPass(alpha:{ x:number; y:number}[]){
+
+    const xCor=alpha.map(x=>x.x);
+    const  yCor=alpha.map(x=>x.y);
+    return Array(alpha.length).fill({}).map((x,i)=>x=xCor[i]+","+yCor[i]).join(" ");
+  }
+
 
   genUserWheel(side:any,color:string){
     const ray=Array(this.spokeCount()).fill({})
@@ -300,7 +258,23 @@ x={
     //d3.selectAll('polygon#genWheels').remove()
   }
 
-secRead2TsnFull(reading:number):number{
+  //derived with linear regression
+ Tsn_to_tm1(tension:number):number{
+   const z= tension
+   const x= this.spokeDia()
+
+   // the followed is a modelled equation of spoke diameter to tenison
+   const a = (.000934*Math.pow(x,4)+-.00775*Math.pow(x,3)+.02379*Math.pow(x,2)+-.03174*Math.pow(x,1)+.0148)
+   const b = (-.2345*Math.pow(x,4)+1.928*Math.pow(x,3)+-5.8596*Math.pow(x,2)+7.728*Math.pow(x,1)+-3.484)
+   const c = (11.118*Math.pow(x,4)+-91.6978*Math.pow(x,3)+279.86*Math.pow(x,2)+-356.004*Math.pow(x,1)+156.045)
+
+   let y = a*Math.pow(z||0,2)+b*Math.pow(z||0,1)+c
+    y=Number(y.toPrecision(4))
+   return y
+ }
+
+
+tm1_to_Tsn(reading:number):number{
    const z= reading
    const x= this.spokeDia()
 
@@ -317,11 +291,55 @@ secRead2TsnFull(reading:number):number{
 }
 
 convRead2Tsn(){
-    this.secRead2TsnFull(this.readRight())
-    this.secRead2TsnFull(this.readLeft())
+    this.tm1_to_Tsn(this.readRight())
+    this.tm1_to_Tsn(this.readLeft())
 }
 
 
 
 
 }
+
+  //---- Polygon orange and blue ---///
+
+  /*
+  polyLeft:{ x:number; y:number}[]= [
+  ];
+
+  polyRight:{ x:number; y:number}[]= [
+  ];
+
+  makepolyGon(){
+    this.polyLeft=Array(this.spokeCount()).fill({}).map((x,i)=>
+        x={
+          x:this.getx(360/this.spokeCount()*i,this.polyL())+this.centreX,
+          y:this.gety(360/this.spokeCount()*i,this.polyL())+this.centreY
+        }
+);
+    this.polyRight=Array(this.spokeCount()).fill({}).map((x,i)=>
+        x={
+          x:this.getx(360/this.spokeCount()*i,this.polyR())+this.centreX,
+          y:this.gety(360/this.spokeCount()*i,this.polyR())+this.centreY
+        }
+);
+
+    this.svg
+    .append("polygon")
+    .attr("points", this.obj2polyPass(this.polyLeft))
+    .style("fill", "none")
+    .style("stroke", "orange")
+    .style("stroke-width", 4)
+    ;
+
+    this.svg
+    .append("polygon")
+    .attr("points", this.obj2polyPass(this.polyRight))
+    .style("fill", "none")
+    .style("stroke", "blue")
+    .style("stroke-width", 4)
+    ;
+  }
+  */
+
+
+
