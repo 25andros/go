@@ -24,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CdkTableModule } from '@angular/cdk/table';
  import {MatSnackBarModule} from '@angular/material/snack-bar'; 
  import {ClipboardModule} from '@angular/cdk/clipboard'; 
+ import {MatSliderModule} from '@angular/material/slider'; 
 
 const MaterialComponents = [
   CommonModule,
@@ -51,6 +52,7 @@ const MaterialComponents = [
   CdkTableModule,
   MatSnackBarModule,
   ClipboardModule,
+  MatSliderModule,
 
 ];
 
