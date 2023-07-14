@@ -8,6 +8,7 @@ import { AboutComponent } from './list/about/about.component';
 import { ProjectsComponent } from './list/projects/projects.component';
 import { FeaturesComponent } from './list/features/features.component';
 import { BikeComponent } from './list/bike/bike.component';
+import { WtaComponent } from './list/wta/wta.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: '404', component: ErrorComponent },
 
+  { path: 'wta', component: WtaComponent },
   { path: 'home', component: ProjectsComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'features', component: FeaturesComponent },
