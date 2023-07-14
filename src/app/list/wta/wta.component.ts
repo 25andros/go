@@ -15,19 +15,18 @@ export class WtaComponent {
 
   constructor(private _fb: FormBuilder,   )  {  }
 
-  testTab=2;
+  testTab=0;
 
   //Form Builder
   sliderSelection = this._fb.group({
     radius:180,
-    rightWheel: 155,
+    rightWheel: 155||0,
     leftWheel: 105||0,
-    spokeQt: 16,
+    spokeQt: 5,
 
-    spokeMat: 1, //may change to string
     spokeDia: 2,
-    reading:25,
-    immed: 25,
+    readRight:25,
+    readLeft:23,
 
     polyL: 155,
     polyR: 175,
@@ -41,8 +40,8 @@ export class WtaComponent {
   polyR(){ return this.sliderSelection.value.polyR||100}
 
   spokeDia(){ return this.sliderSelection.value.spokeDia||0}
-  immed(){ return this.sliderSelection.value.immed||0}
-  rtReading(){return this.sliderSelection.value.reading||0}
+  readRight(){return this.sliderSelection.value.readRight||0}
+  readLeft(){return this.sliderSelection.value.readLeft||0}
 
 
 
@@ -52,8 +51,6 @@ baseline$=this.sliderSelection.statusChanges
   .pipe(takeUntil(this.unsubscribe$))
   .subscribe((x)=>{
     d3.selectAll('circle#rxjsCirc').remove();
-    this.createCirRight()
-    this.createCirLeft()
 
     //to allow for redraw of the max circle... will need to edit the .attr(r,radius())
     d3.selectAll('circle#maxCirc').remove();
@@ -75,13 +72,9 @@ baseline$=this.sliderSelection.statusChanges
     this.makeCanvas();
     this.createCirBaselines(); //backdrop circle
     this.linesMake();
-    this.createCirRight();
-    this.createCirLeft();
-    this.initRay();
-    this.linesMake();
     this.makepolyGon();
-   this.genUserWheel(this.rtWheelL(),'pink')
-   this.genUserWheel(this.rtWheelR(),'purple')
+   //this.genUserWheel(this.rtWheelL(),'pink')
+   //this.genUserWheel(this.rtWheelR(),'purple')
   }
 
   ngOnDestroy(){
@@ -145,32 +138,6 @@ baseline$=this.sliderSelection.statusChanges
 
   }
 
-  createCirRight():void{
-    this.svg
-    .append('circle')
-    .attr('cx', this.centreX)
-    .attr('cy', this.centreY)
-    .attr('r',this.rWheel())
-    .style("stroke", "blue")
-    .attr('fill','none')
-    .attr('stroke-width',3)
-    .attr('id','rxjsCirc')
-    ;
-  }
-
-  createCirLeft():void{
-    this.svg
-    .append('circle')
-    .attr('cx', this.centreX)
-    .attr('cy', this.centreY)
-    .attr('r',this.lWheel())
-    .style("stroke", "orange")
-    .attr('stroke-width',3)
-    .attr('fill','none')
-    .attr('id','rxjsCirc')
-    ;
-  }
-
   iterDataR=Array({});
 
   gety(degree:number,length:number):number{
@@ -194,7 +161,9 @@ x={
 }
 
 
+//black spoke backdrop
   linesMake(){
+      this.initRay()
 
     this.svg
     .selectAll('line')
@@ -225,19 +194,12 @@ x={
   }
 
   makepolyGon(){
-
-      //console.log(this.polyLeft);
-
-      //initialise of points for left polygon
     this.polyLeft=Array(this.spokeCount()).fill({}).map((x,i)=>
         x={
           x:this.getx(360/this.spokeCount()*i,this.polyL())+this.centreX,
           y:this.gety(360/this.spokeCount()*i,this.polyL())+this.centreY
         }
-        //this.getx(degree, length)
 );
-
-      //initialise of points for right polygon
     this.polyRight=Array(this.spokeCount()).fill({}).map((x,i)=>
         x={
           x:this.getx(360/this.spokeCount()*i,this.polyR())+this.centreX,
@@ -247,7 +209,6 @@ x={
 
     this.svg
     .append("polygon")
-    //.attr("points", "75,75 100,10 125,75 100,125")
     .attr("points", this.obj2polyPass(this.polyLeft))
     .style("fill", "none")
     .style("stroke", "orange")
@@ -261,8 +222,8 @@ x={
     .style("stroke", "blue")
     .style("stroke-width", 4)
     ;
-
   }
+
 
  // Measurement portion of application
 
@@ -285,7 +246,7 @@ x={
     }
 
     iterateFormSpoke(){
-      this.spokeQt.push(this._fb.group({i:this.lWheel(),read:this.tsn2Read()}))
+      this.spokeQt.push(this._fb.group({i:this.lWheel()}))
       this.rSpokeQt.push(this._fb.group({i:this.rWheel()}))
     }
 
@@ -297,18 +258,12 @@ x={
     // unsued
 
     addSpoke(){ this.spokeQt.push(
-      this._fb.group({i:this.lWheel,j:this.tsn2Read()})
+      this._fb.group({i:this.lWheel})
     )}
 
     rmSpoke(index:any){
       this.spokeQt.removeAt(index)
 }
-
-  userL:{ x:number; y:number}[]= [
-  ];
-
-  userR:{ x:number; y:number}[]= [
-  ];
 
 // ------
 
@@ -345,88 +300,6 @@ x={
     //d3.selectAll('polygon#genWheels').remove()
   }
 
-toscn(){
-  // // @ts-ignore
-    //console.log(this.dynamic.value.numOfSpokes[0].i)
-
-    const ray =Array(this.spokeCount()).fill({})
-   // @ts-ignore
-                  .map((x,i)=>this.dynamic.value.numOfSpokes[i].i)
-
-                  .map((x,i)=>
-                           {
-                           const degr =  360/this.spokeCount()*i
-                           return {x:Math.cos(degr)*x,y:Math.sin(degr)*x}
-                  })
-                  console.log(ray)
-                const bro=this.obj2polyPass(ray)
-
-                console.log(bro)
-}
-
- modelledTenEquation(){
-   //const val= this.spokeDia()*this.immed()
-
-   const x= this.spokeDia()
-   const z= this.immed()
-
-   // the followed is a modelled equation of spoke diameter to tenison
-   const a = (.000934*Math.pow(x,4)+-.00775*Math.pow(x,3)+.02379*Math.pow(x,2)+-.03174*Math.pow(x,1)+.0148)
-   const b = (-.2345*Math.pow(x,4)+1.928*Math.pow(x,3)+-5.8596*Math.pow(x,2)+7.728*Math.pow(x,1)+-3.484)
-   const c = (11.118*Math.pow(x,4)+-91.6978*Math.pow(x,3)+279.86*Math.pow(x,2)+-356.004*Math.pow(x,1)+156.045)
-
-   /*
-   console.log(a)
-   console.log(b)
-   console.log(c)
-   */
-
-   let y = a*Math.pow(z,2)+b*Math.pow(z,1)+c
-    y=Number(y.toPrecision(4))
-   //console.log(y)
-   return y
-
-
- }
-
- tsn2Read(){
-   //const val= this.spokeDia()*this.immed()
-
-   const x= this.spokeDia()
-   const z= this.lWheel()
-
-   // the followed is a modelled equation of spoke diameter to tenison
-   const a = (.000934*Math.pow(x,4)+-.00775*Math.pow(x,3)+.02379*Math.pow(x,2)+-.03174*Math.pow(x,1)+.0148)
-   const b = (-.2345*Math.pow(x,4)+1.928*Math.pow(x,3)+-5.8596*Math.pow(x,2)+7.728*Math.pow(x,1)+-3.484)
-   const c = (11.118*Math.pow(x,4)+-91.6978*Math.pow(x,3)+279.86*Math.pow(x,2)+-356.004*Math.pow(x,1)+156.045)
-
-   let y = a*Math.pow(z||0,2)+b*Math.pow(z||0,1)+c
-    y=Number(y.toPrecision(4))
-   return y
-
-
- }
-
- showVal(side:any,i:number){
-   return side[i].i
-
- }
-
-secRead2Tsn(reading:number):number{
-   const z= reading
-   const x= this.spokeDia()
-
-   // the followed is a modelled equation of spoke diameter to tenison
-   const a = (.1469*Math.pow(x,2)+-.30095*Math.pow(x,1)+.74277)
-   const b = (-13.84062*Math.pow(x,2)+21.9736*Math.pow(x,1)+-10.8199)
-   const c = (369.5*Math.pow(x,2)+-1015.7422*Math.pow(x,1)+777.87767)
-
-   let y = a*Math.pow(z,2)+b*Math.pow(z,1)+c
-    y=Number(y.toPrecision(4))
-   return y
-
-}
-
 secRead2TsnFull(reading:number):number{
    const z= reading
    const x= this.spokeDia()
@@ -442,4 +315,13 @@ secRead2TsnFull(reading:number):number{
    return y
 
 }
+
+convRead2Tsn(){
+    this.secRead2TsnFull(this.readRight())
+    this.secRead2TsnFull(this.readLeft())
+}
+
+
+
+
 }
