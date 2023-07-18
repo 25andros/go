@@ -18,8 +18,8 @@ export class WtaComponent {
   //Form Builder
   sliderSelection = this._fb.group({
     radius:180,
-    leftWheel: 120,
-    rightWheel: 125||0,
+    leftWheel: 105,
+    rightWheel: 125,
     spokeQt: 5,
     scaleConv:1.25,
 
@@ -29,11 +29,14 @@ export class WtaComponent {
     innerCircle:25,
     outerCircle:180,
     canvas:375,
+
+    a:120,
+    b:25,
   } );
 
   radius(){ return this.sliderSelection.value.radius}
   lWheel(){ return this.sliderSelection.value.leftWheel||100}
-  rWheel(){ return this.sliderSelection.value.rightWheel}
+  rWheel(){ return this.sliderSelection.value.rightWheel||100}
   spokeCount(){ return this.sliderSelection.value.spokeQt||122}
 
   spokeDia(){ return this.sliderSelection.value.spokeDia||0}
@@ -43,6 +46,8 @@ export class WtaComponent {
   innerCircle(){return this.sliderSelection.value.innerCircle}
   outerCircle(){return this.sliderSelection.value.outerCircle||180}
   canvas() {return this.sliderSelection.value.canvas||375}
+  getA(){return this.sliderSelection.value.a||0}
+  getB(){return this.sliderSelection.value.b||0}
 
   
   testTab=0;
@@ -76,6 +81,12 @@ export class WtaComponent {
 
       d3.selectAll('polygon').remove();
       //this.makepolyGon();
+
+
+      this.clearForm()
+      this.buildForm()
+      this.genUserWheel(this.rtWheelL(),'orange')
+      this.genUserWheel(this.rtWheelR(),'blue')
   });
 
   //lifecycle hooks
@@ -85,8 +96,8 @@ export class WtaComponent {
     this.createCirBaselines(); //backdrop circles
     this.linesMake();
 
-   this.genUserWheel(this.rtWheelL(),'pink')
-   this.genUserWheel(this.rtWheelR(),'purple')
+   this.genUserWheel(this.rtWheelL(),'orange')
+   this.genUserWheel(this.rtWheelR(),'blue')
   }
 
   ngOnDestroy(){
@@ -295,7 +306,11 @@ convRead2Tsn(){
     this.tm1_to_Tsn(this.readLeft())
 }
 
+str2num(alf:string):number{
+    return Number(alf)
+}
 
+//conversion table
 
 
 }

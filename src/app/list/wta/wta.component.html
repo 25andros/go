@@ -10,11 +10,15 @@
 
       <mat-form-field >
         <mat-label>Spoke Count (per side)</mat-label>
-        <input matInput type=number formControlName="spokeQt" min=3 max=20 (change)="clearForm();buildForm();    this.genUserWheel(this.rtWheelL(),'pink');
-   this.genUserWheel(this.rtWheelR(),'purple')
- ">
+        <input matInput type=number formControlName="spokeQt" min=3 max=20 
+
+ >
       </mat-form-field>
       <br>
+
+      <!-- <div>
+        (change)="clearForm();buildForm();    this.genUserWheel(this.rtWheelL(),'orange'); this.genUserWheel(this.rtWheelR(),'blue')"
+      </div> -->
 
       <mat-form-field >
         <mat-label>Spoke Diameter (mm)</mat-label>
@@ -25,19 +29,22 @@
       <mat-form-field >
         <mat-label>Target Tension (Left)</mat-label>
         <input matInput type=number formControlName="leftWheel">
+        <mat-hint>tm1 reading: {{Tsn_to_tm1(lWheel())}}</mat-hint>
+
       </mat-form-field>
       <br>
 
       <mat-form-field >
         <mat-label>Target Tension (Right)</mat-label>
         <input matInput type=number formControlName="rightWheel">
+        <mat-hint>tm1 reading: {{Tsn_to_tm1(rWheel())}}</mat-hint>
       </mat-form-field>
       <br>
 
-      <button mat-flat-button color=accent (click)="genUserWheel(rtWheelL(),'pink')">look Left</button>
-      <button mat-flat-button color=accent (click)="genUserWheel(rtWheelR(),'purple')">look Right</button>
+      <!-- <button mat-flat-button color=accent (click)="genUserWheel(rtWheelL(),'orange')">look Left</button> -->
+      <!-- <button mat-flat-button color=accent (click)="genUserWheel(rtWheelR(),'blue')">look Right</button> -->
 
-      <button mat-flat-button color=accent (click)="convRead2Tsn()">look</button>
+      <!-- <button mat-flat-button color=accent (click)="convRead2Tsn()">look</button> -->
 
       <!-- <button mat-flat-button color=warn (click)="rebuildCanvas()">look</button> -->
     </form>
@@ -54,8 +61,8 @@
   <h3 style="color:orange">Left</h3>
       <div *ngFor="let x of spokeQt.controls;let i=index;" [formGroupName]="i" style="margin: 0px  5px">
         <mat-form-field color=accent appearance=fill [style.width.px]=150>
-            <mat-label>spoke #{{i+1}} {{Tsn_to_tm1(lWheel())}} </mat-label>
-          <input matInput type="number" placeholder={{i+1}}  formControlName="i" (change)="delWheel('pink');genUserWheel(rtWheelL(),'pink')">
+            <mat-label>spoke #{{i+1}} </mat-label>
+          <input matInput type="number" placeholder={{i+1}}  formControlName="i" (change)="delWheel('orange');genUserWheel(rtWheelL(),'orange')">
           <!-- <button mat-flat-button  matSuffix color=accent type="button" (click)="rmSpoke(i)"><mat-icon>close</mat-icon></button> -->
         </mat-form-field>
       </div>
@@ -66,13 +73,32 @@
       <div *ngFor="let x of rSpokeQt.controls;let i=index;" [formGroupName]="i" style="margin: 0px  5px">
         <mat-form-field color=primary [style.width.px]=150>
           <mat-label>spoke #{{i+1}} </mat-label>
-          <input matInput type="number" placeholder={{i+1}}  formControlName="i" (change)="delWheel('purple');genUserWheel(rtWheelR(),'purple')" >
+          <input matInput type="number" placeholder={{i+1}}  formControlName="i" (change)="delWheel('blue');genUserWheel(rtWheelR(),'blue')" >
           <!-- <button mat-flat-button  matSuffix color=accent type="button" (click)="rmSpoke(i)"><mat-icon>close</mat-icon></button> -->
         </mat-form-field>
       </div>
     </div>
 
+<div style="display:inline-block; vertical-align: top;">
+    <h3 style="color:darkgray">Conversion</h3>
+    <mat-form-field color=primary [style.width.px]=150>
+        <mat-label>Tm1 to tension</mat-label>
+        <input matInput #bro type="number" step=.25 value="20">
+        <!-- <mat-hint>{{tm1_to_Tsn(bro.value)}}</mat-hint> -->
+        <mat-hint>{{tm1_to_Tsn(str2num(bro.value))}}</mat-hint>
+    </mat-form-field>
+      <br>
+
+    <mat-form-field color=primary [style.width.px]=150>
+        <mat-label>Tension to Tm1</mat-label>
+        <input matInput #sef type="number" step=.25 value="120">
+        <!-- <mat-hint>{{tm1_to_Tsn(bro.value)}}</mat-hint> -->
+        <mat-hint>{{Tsn_to_tm1(str2num(sef.value))}}</mat-hint>
+    </mat-form-field>
+</div>
+
 </form>
+
 
 
 
@@ -81,6 +107,7 @@
   <mat-tab label="Options">
     <form [formGroup]="sliderSelection">
 
+        <p>note: experimental</p>
       <mat-form-field >
         <mat-label>Inner Circle</mat-label>
         <input matInput type=number formControlName="innerCircle" >
