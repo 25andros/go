@@ -14,6 +14,16 @@
 
 </section>
 
+<mat-card (click)="onCardClick(4)">
+  <mat-card-header>
+    <div mat-card-avatar id="wta"></div>
+    <mat-card-title>Wheel Tension App</mat-card-title>
+    <mat-card-subtitle>A visual tool for building wheels</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="../../../assets/project-pre/wta_pic.png" alt="cicle showing how far from true a wheel is...">
+</mat-card>
+
+
 <mat-card (click)="onCardClick(3)">
   <mat-card-header>
     <div mat-card-avatar id="bike"></div>
@@ -21,6 +31,16 @@
     <mat-card-subtitle>How far does your bike go...</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image src="../../../assets/project-pre/bike_preview.png" alt="bicycle gearing">
+</mat-card>
+
+<!-- <mat-card #quotes (click)="onCardClick(quotes)"> -->
+<mat-card #qu id="quotes" (click)="onCardClick(2)">
+  <mat-card-header>
+    <div mat-card-avatar class="header-image"></div>
+    <mat-card-title>quotes</mat-card-title>
+    <mat-card-subtitle>static site</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image src="../../../assets/project-pre/quotes-preview.png" alt="quotes preview">
 </mat-card>
 
 <mat-card (click)="onCardClick(1)">
@@ -33,12 +53,3 @@
 </mat-card>
 
 
-<!-- <mat-card #quotes (click)="onCardClick(quotes)"> -->
-<mat-card #qu id="quotes" (click)="onCardClick(2)">
-  <mat-card-header>
-    <div mat-card-avatar class="header-image"></div>
-    <mat-card-title>quotes</mat-card-title>
-    <mat-card-subtitle>static site</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="../../../assets/project-pre/quotes-preview.png" alt="quotes preview">
-</mat-card>

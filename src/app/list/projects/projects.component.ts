@@ -25,6 +25,12 @@ export class ProjectsComponent {
     if (alpha == 3) {
       this.router.navigate(['/', 'bicycle']);
     }
+
+    if (alpha == 4) {
+      this.router.navigate(['/', 'wta']);
+    }
+
+
   }
 
   //jump to #work

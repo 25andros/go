@@ -67,10 +67,18 @@ section button {
 
 #bike {
  
+  background-image: url("../../../assets/project-pre/MTB-cassettes.jpg");
+  background-size: cover;
+}
+
+#wta {
+ 
   background-image: url("../../../assets/project-pre/cycle_preview.jpg");
   background-size: cover;
- 
 }
+
+
+
 
 mat-card {
   //display: inline-block;
